@@ -68,8 +68,8 @@ export async function main(durationInMillisecond: number) {
         throw new Error('restaurants not found.');
     }
     debug(restaurants.length, 'restaurants found.');
-    // レストラン確定
-    const selectedRestaurant = restaurants[0];
+    // レストラン選択
+    const selectedRestaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
 
     const transaction = await placeOrderTransactionService.start({
         // tslint:disable-next-line:no-magic-numbers
@@ -83,11 +83,11 @@ export async function main(durationInMillisecond: number) {
     // tslint:disable-next-line:no-magic-numbers
     await wait(Math.floor(durationInMillisecond / 2));
 
-    // メニュー一つ目追加
-    const selectedMenuItem = selectedRestaurant.hasMenu[0].hasMenuSection[0].hasMenuItem[0];
-    if (selectedMenuItem === undefined) {
-        throw new Error('menu item not found.');
-    }
+    // メニューアイテム選択
+    const menuSections = selectedRestaurant.hasMenu[0].hasMenuSection;
+    const selectedMenuSection = menuSections[Math.floor(Math.random() * menuSections.length)];
+    const menuItems = selectedMenuSection.hasMenuItem;
+    const selectedMenuItem = menuItems[Math.floor(Math.random() * menuItems.length)];
     if (selectedMenuItem.offers === undefined) {
         throw new Error('selected menu item offer undefined.');
     }

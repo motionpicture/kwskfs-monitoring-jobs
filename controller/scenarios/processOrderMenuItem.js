@@ -71,8 +71,8 @@ function main(durationInMillisecond) {
             throw new Error('restaurants not found.');
         }
         debug(restaurants.length, 'restaurants found.');
-        // レストラン確定
-        const selectedRestaurant = restaurants[0];
+        // レストラン選択
+        const selectedRestaurant = restaurants[Math.floor(Math.random() * restaurants.length)];
         const transaction = yield placeOrderTransactionService.start({
             // tslint:disable-next-line:no-magic-numbers
             expires: moment().add(5, 'minutes').toDate(),
@@ -82,11 +82,11 @@ function main(durationInMillisecond) {
         const menuItemAuthorizations = [];
         // tslint:disable-next-line:no-magic-numbers
         yield wait(Math.floor(durationInMillisecond / 2));
-        // メニュー一つ目追加
-        const selectedMenuItem = selectedRestaurant.hasMenu[0].hasMenuSection[0].hasMenuItem[0];
-        if (selectedMenuItem === undefined) {
-            throw new Error('menu item not found.');
-        }
+        // メニューアイテム選択
+        const menuSections = selectedRestaurant.hasMenu[0].hasMenuSection;
+        const selectedMenuSection = menuSections[Math.floor(Math.random() * menuSections.length)];
+        const menuItems = selectedMenuSection.hasMenuItem;
+        const selectedMenuItem = menuItems[Math.floor(Math.random() * menuItems.length)];
         if (selectedMenuItem.offers === undefined) {
             throw new Error('selected menu item offer undefined.');
         }
