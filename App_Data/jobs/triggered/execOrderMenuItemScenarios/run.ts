@@ -37,6 +37,7 @@ interface IConfigurations {
 
 interface IResult {
     processNumber: number;
+    progress: string;
     transactionId: string;
     startDate: string;
     errorMessage: string;
@@ -62,6 +63,7 @@ startScenarios({
     maxDurationInSeconds: (process.argv[5] !== undefined) ? parseInt(process.argv[5], 10) : 180
 });
 
+// tslint:disable-next-line:max-func-body-length
 function startScenarios(configurations: IConfigurations) {
     if (process.env.NODE_ENV === 'production') {
         throw new Error('Cannot start scenarios on a production environment.');
@@ -96,12 +98,13 @@ function startScenarios(configurations: IConfigurations) {
                     (configurations.maxDurationInSeconds - configurations.minDurationInSeconds) * Math.random()
                     + configurations.minDurationInSeconds
                 );
-                const { transaction, order } = await processOrderMenuItem.main(
+                const { progress, transaction, order } = await processOrderMenuItem.main(
                     // tslint:disable-next-line:no-magic-numbers
                     durationInSeconds * 1000
                 );
                 result = {
                     processNumber: processNumber,
+                    progress: progress,
                     transactionId: transaction.id,
                     startDate: now.toISOString(),
                     errorMessage: '',
@@ -117,6 +120,7 @@ function startScenarios(configurations: IConfigurations) {
             } catch (error) {
                 result = {
                     processNumber: processNumber,
+                    progress: error.progress,
                     transactionId: '',
                     startDate: now.toISOString(),
                     errorMessage: error.message,
@@ -134,6 +138,7 @@ function startScenarios(configurations: IConfigurations) {
             log = `
 =============================== Transaction result ===============================
 processNumber                    : ${result.processNumber.toString()}
+progress                         : ${result.progress}
 transactionId                    : ${result.transactionId}
 startDate                        : ${result.startDate}
 errorMessage                     : ${result.errorMessage}

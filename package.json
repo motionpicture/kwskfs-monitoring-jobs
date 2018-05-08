@@ -9,8 +9,8 @@
     }
   ],
   "dependencies": {
-    "@motionpicture/kwskfs-api-nodejs-client": "0.0.0-alpha.4",
-    "@motionpicture/kwskfs-domain": "0.0.0-alpha.15",
+    "@motionpicture/kwskfs-api-nodejs-client": "0.0.0-alpha.6",
+    "@motionpicture/kwskfs-domain": "0.0.0-alpha.22",
     "debug": "^3.1.0",
     "json2csv": "^3.11.5",
     "moment": "^2.20.1",
