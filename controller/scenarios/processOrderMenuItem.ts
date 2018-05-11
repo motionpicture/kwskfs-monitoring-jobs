@@ -167,7 +167,8 @@ export async function main(durationInMillisecond: number) {
         // 注文確定
         progress = 'confirming...';
         const order = await placeOrderTransactionService.confirm({
-            transactionId: transaction.id
+            transactionId: transaction.id,
+            sendEmailMessage: true
         });
         progress = `transaction confirmed. ${order.orderNumber}`;
         debug(progress);

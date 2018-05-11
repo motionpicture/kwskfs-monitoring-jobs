@@ -156,7 +156,8 @@ function main(durationInMillisecond) {
             // 注文確定
             progress = 'confirming...';
             const order = yield placeOrderTransactionService.confirm({
-                transactionId: transaction.id
+                transactionId: transaction.id,
+                sendEmailMessage: true
             });
             progress = `transaction confirmed. ${order.orderNumber}`;
             debug(progress);
